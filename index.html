@@ -36,51 +36,64 @@
   </style>
 </head>
 <body>
-  <h1>🔍 OSINT CTF: Operation CozySpider</h1>
+  <h1>🕵️‍♀️ OSINT CTF: Operation CozySpider – The Phantom Command Chain</h1>
   <p><strong>Company:</strong> CyberDome<br>
     <strong>Category:</strong> OSINT<br>
      <strong>Difficulty:</strong> Easy to Medium<br>
-     <strong>Time Estimate:</strong> 10 minutes
+     <strong>Time Estimate:</strong> 10–20 minutes
   </p>
 
-  <p>Threat researchers have observed renewed activity from an APT group linked to <strong>"CozySpider"</strong> (alias of a well-known nation-state group). You’ve been handed one IOC to begin your hunt:</p>
+  <h2>📖 Backstory</h2>
+  <p>In late May, a European telecom provider reported signs of a <strong>targeted breach</strong>. Forensic logs revealed command-and-control activity linked to <strong>CozySpider</strong> — a covert APT with ties to state-sponsored operations.</p>
+  <p>Your mission, Analyst: <strong>Trace their infrastructure, expose their malware, and identify the campaign name</strong> before it vanishes from the web.</p>
+  <p>You’ve been handed one known IOC to begin your hunt:</p>
   <p><code>Known Domain: researchnode[.]org</code></p>
 
   <h2>🧩 Challenges</h2>
 
   <div class="challenge">
-    <h3>1. Passive Infrastructure Mapping</h3>
-    <p>Using VirusTotal or another passive DNS tool, find another domain hosted on the same IP as <code>researchnode[.]org</code>.</p>
+    <h3>1. Silent Hosts</h3>
+    <p>Logs indicate a suspicious domain was contacted from a compromised internal asset.</p>
+    <p><strong>Intel Task:</strong> Use passive DNS and threat intel to find <em>another domain on the same IP</em> as <code>researchnode[.]org</code>.</p>
     <p><strong>Flag format:</strong> <code>flag{related_domain}</code></p>
+    <p><em>Narrative:</em> You just revealed the threat actor’s <strong>infrastructure cluster</strong>. You're onto something. But what were they using it for?</p>
   </div>
 
   <div class="challenge">
-    <h3>2. Certificate Pivot</h3>
-    <p>Use <a href="https://crt.sh" target="_blank">crt.sh</a> or Censys to identify the SSL certificate common name (CN) associated with the domain.</p>
+    <h3>2. Shadows in the Certificate</h3>
+    <p>Further analysis shows the domain served over HTTPS. CozySpider often reuses certificates across campaigns.</p>
+    <p><strong>Intel Task:</strong> Use crt.sh or Censys to identify the <strong>certificate's Common Name (CN)</strong>.</p>
     <p><strong>Flag format:</strong> <code>flag{certificate_common_name}</code></p>
+    <p><em>Narrative:</em> The CN matches a codename from past campaigns. You've tracked their <strong>digital fingerprint</strong>.</p>
   </div>
 
   <div class="challenge">
-    <h3>3. Malware Pivot</h3>
-    <p>Search a malware sandbox (e.g., ANY.RUN or Triage) for samples that communicated with the IOC. Submit the name of one malware family.</p>
+    <h3>3. Their Weapon of Choice</h3>
+    <p>The IP is submitted to a sandbox. The payload behavior is familiar — CozySpider’s signature style.</p>
+    <p><strong>Intel Task:</strong> Identify <strong>one malware family</strong> associated with the IOC.</p>
     <p><strong>Flag format:</strong> <code>flag{malware_name}</code></p>
+    <p><em>Narrative:</em> You’ve now uncovered the APT’s <strong>primary cyber weapon</strong>. The tools fit the threat profile.</p>
   </div>
 
   <div class="challenge">
-    <h3>4. TTP Mapping</h3>
-    <p>Using the MITRE ATT&CK framework, find one technique ID used by CozySpider/APT29 related to credential dumping.</p>
+    <h3>4. Inside Their Playbook</h3>
+    <p>Consult MITRE ATT&CK to verify TTPs. CozySpider often escalates access by dumping credentials.</p>
+    <p><strong>Intel Task:</strong> Find the <strong>MITRE Technique ID</strong> for credential dumping.</p>
     <p><strong>Flag format:</strong> <code>flag{TID}</code> (e.g., <code>flag{T1003}</code>)</p>
+    <p><em>Narrative:</em> You're now mapping CozySpider’s <strong>methods to threat intelligence frameworks</strong>. The picture sharpens.</p>
   </div>
 
   <div class="challenge">
-    <h3>5. Related Campaign</h3>
-    <p>Search public threat intel sources for a campaign name tied to CozySpider/APT29 in the past year.</p>
+    <h3>5. The Final Link</h3>
+    <p>All intel points to a larger operation. You cross-reference known CozySpider campaigns to name this one.</p>
+    <p><strong>Intel Task:</strong> Identify a <strong>campaign name</strong> tied to CozySpider/APT29 in recent public reports.</p>
     <p><strong>Flag format:</strong> <code>flag{campaign_name}</code></p>
+    <p><em>Narrative:</em> With this final flag, you’ve uncovered the APT’s <strong>command chain, intent, and campaign structure</strong>. The operation is exposed.</p>
   </div>
 
   <div class="footer">
     <p>Use tools like VirusTotal, Shodan, crt.sh, Abuse.ch, ANY.RUN, MITRE ATT&CK Navigator. Stay ethical. No brute-force. No login required for any tool used.</p>
-    <p><strong>Good luck, analyst!</strong></p>
+    <p><strong>Good luck, Analyst.</strong> The world is watching.</p>
   </div>
 </body>
 </html>
