@@ -36,12 +36,31 @@
       font-size: 0.9rem;
       color: #dcdde1;
     }
-    details {
-      background-color: rgba(9, 132, 227, 0.1);
-      border-left: 4px solid #0984e3;
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 4px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background: #00cec9;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .feedback {
+      margin-top: 0.5rem;
+      font-weight: bold;
+    }
+    #scoreboard {
+      background: rgba(0, 184, 148, 0.2);
       padding: 1rem;
-      margin-top: 1rem;
-      margin-bottom: 2rem;
+      border-radius: 6px;
+      margin-top: 3rem;
       color: #dff9fb;
     }
   </style>
@@ -60,60 +79,94 @@
   <p><code>Known Domain: researchnode[.]org</code></p>
 
   <h2>🧩 Challenges</h2>
+  <div id="challenges"></div>
 
-  <div class="challenge">
-    <h3>1. Silent Hosts</h3>
-    <p><strong>Intel Task:</strong> Use passive DNS and threat intel to find <em>another domain on the same IP</em> as <code>researchnode[.]org</code>.</p>
-    <p><strong>Flag format:</strong> <code>flag{related_domain}</code></p>
-    <p><em>Narrative:</em> You just revealed the threat actor’s <strong>infrastructure cluster</strong>. You're onto something. But what were they using it for?</p>
-    <details><summary><strong>Solution</strong></summary>
-      <p><code>flag{intelcloudsync.net}</code></p>
-    </details>
-  </div>
-
-  <div class="challenge">
-    <h3>2. Shadows in the Certificate</h3>
-    <p><strong>Intel Task:</strong> Use crt.sh or Censys to identify the <strong>certificate's Common Name (CN)</strong>.</p>
-    <p><strong>Flag format:</strong> <code>flag{certificate_common_name}</code></p>
-    <p><em>Narrative:</em> The CN matches a codename from past campaigns. You've tracked their <strong>digital fingerprint</strong>.</p>
-    <details><summary><strong>Solution</strong></summary>
-      <p><code>flag{CozySync-01}</code></p>
-    </details>
-  </div>
-
-  <div class="challenge">
-    <h3>3. Their Weapon of Choice</h3>
-    <p><strong>Intel Task:</strong> Identify <strong>one malware family</strong> associated with the IOC.</p>
-    <p><strong>Flag format:</strong> <code>flag{malware_name}</code></p>
-    <p><em>Narrative:</em> You’ve now uncovered the APT’s <strong>primary cyber weapon</strong>. The tools fit the threat profile.</p>
-    <details><summary><strong>Solution</strong></summary>
-      <p><code>flag{cobalt_strike}</code></p>
-    </details>
-  </div>
-
-  <div class="challenge">
-    <h3>4. Inside Their Playbook</h3>
-    <p><strong>Intel Task:</strong> Find the <strong>MITRE Technique ID</strong> for credential dumping.</p>
-    <p><strong>Flag format:</strong> <code>flag{TID}</code> (e.g., <code>flag{T1003}</code>)</p>
-    <p><em>Narrative:</em> You're now mapping CozySpider’s <strong>methods to threat intelligence frameworks</strong>. The picture sharpens.</p>
-    <details><summary><strong>Solution</strong></summary>
-      <p><code>flag{T1003}</code></p>
-    </details>
-  </div>
-
-  <div class="challenge">
-    <h3>5. The Final Link</h3>
-    <p><strong>Intel Task:</strong> Identify a <strong>campaign name</strong> tied to CozySpider/APT29 in recent public reports.</p>
-    <p><strong>Flag format:</strong> <code>flag{campaign_name}</code></p>
-    <p><em>Narrative:</em> With this final flag, you’ve uncovered the APT’s <strong>command chain, intent, and campaign structure</strong>. The operation is exposed.</p>
-    <details><summary><strong>Solution</strong></summary>
-      <p><code>flag{midnight_blizzard}</code></p>
-    </details>
+  <div id="scoreboard">
+    <h3>📊 Scoreboard</h3>
+    <p id="totalScore">Total Score: 0</p>
   </div>
 
   <div class="footer">
     <p>Use tools like VirusTotal, Shodan, crt.sh, Abuse.ch, ANY.RUN, MITRE ATT&CK Navigator. Stay ethical. No brute-force. No login required for any tool used.</p>
     <p><strong>Good luck, Analyst.</strong> The world is watching.</p>
   </div>
+
+  <script>
+    const challenges = [
+      {
+        title: "1. Silent Hosts",
+        task: "Use passive DNS and threat intel to find another domain on the same IP as researchnode[.]org.",
+        flag: "flag{intelcloudsync.net}"
+      },
+      {
+        title: "2. Shadows in the Certificate",
+        task: "Use crt.sh or Censys to identify the certificate's Common Name (CN).",
+        flag: "flag{CozySync-01}"
+      },
+      {
+        title: "3. Their Weapon of Choice",
+        task: "Identify one malware family associated with the IOC.",
+        flag: "flag{cobalt_strike}"
+      },
+      {
+        title: "4. Inside Their Playbook",
+        task: "Find the MITRE Technique ID for credential dumping.",
+        flag: "flag{T1003}"
+      },
+      {
+        title: "5. The Final Link",
+        task: "Identify a campaign name tied to CozySpider/APT29 in recent public reports.",
+        flag: "flag{midnight_blizzard}"
+      }
+    ];
+
+    const container = document.getElementById('challenges');
+    const scoreDisplay = document.getElementById('totalScore');
+    const userAttempts = Array(challenges.length).fill(0);
+    const userScores = Array(challenges.length).fill(0);
+
+    challenges.forEach((ch, i) => {
+      const box = document.createElement('div');
+      box.className = 'challenge';
+      box.innerHTML = `
+        <h3>${ch.title}</h3>
+        <p><strong>Task:</strong> ${ch.task}</p>
+        <input type="text" id="input-${i}" placeholder="Enter your flag..."/>
+        <button onclick="checkFlag(${i})">Submit</button>
+        <div class="feedback" id="feedback-${i}"></div>
+      `;
+      container.appendChild(box);
+    });
+
+    function checkFlag(index) {
+      const input = document.getElementById(`input-${index}`).value.trim();
+      const feedback = document.getElementById(`feedback-${index}`);
+
+      if (userScores[index] > 0 || userAttempts[index] >= 3) return;
+
+      userAttempts[index]++;
+
+      if (input.toLowerCase() === challenges[index].flag.toLowerCase()) {
+        userScores[index] = 10;
+        feedback.style.color = 'lightgreen';
+        feedback.innerText = `✅ Correct! +10 points.`;
+      } else {
+        if (userAttempts[index] >= 3) {
+          feedback.style.color = 'orange';
+          feedback.innerHTML = `❌ Incorrect. Max attempts reached. The correct flag is: <code>${challenges[index].flag}</code>`;
+        } else {
+          feedback.style.color = 'red';
+          feedback.innerText = `❌ Incorrect. Try again (${userAttempts[index]} of 3 attempts used).`;
+        }
+      }
+
+      updateScore();
+    }
+
+    function updateScore() {
+      const total = userScores.reduce((sum, val) => sum + val, 0);
+      scoreDisplay.innerText = `Total Score: ${total}`;
+    }
+  </script>
 </body>
 </html>
