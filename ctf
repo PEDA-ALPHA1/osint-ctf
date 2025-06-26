@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OSINT CTF: Operation CozySpider</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f6fa;
+      color: #2f3640;
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1, h2 {
+      color: #273c75;
+    }
+    code {
+      background: #dcdde1;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+    }
+    .challenge {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: #fff;
+      border-left: 4px solid #44bd32;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .footer {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: #718093;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 OSINT CTF: Operation CozySpider</h1>
+  <p><strong>Category:</strong> OSINT<br>
+     <strong>Difficulty:</strong> Easy to Medium<br>
+     <strong>Time Estimate:</strong> 10–20 minutes
+  </p>
+
+  <p>Threat researchers have observed renewed activity from an APT group linked to <strong>"CozySpider"</strong> (alias of a well-known nation-state group). You’ve been handed one IOC to begin your hunt:</p>
+  <p><code>Known Domain: researchnode[.]org</code></p>
+
+  <h2>🧩 Challenges</h2>
+
+  <div class="challenge">
+    <h3>1. Passive Infrastructure Mapping</h3>
+    <p>Using VirusTotal or another passive DNS tool, find another domain hosted on the same IP as <code>researchnode[.]org</code>.</p>
+    <p><strong>Flag format:</strong> <code>flag{related_domain}</code></p>
+  </div>
+
+  <div class="challenge">
+    <h3>2. Certificate Pivot</h3>
+    <p>Use <a href="https://crt.sh" target="_blank">crt.sh</a> or Censys to identify the SSL certificate common name (CN) associated with the domain.</p>
+    <p><strong>Flag format:</strong> <code>flag{certificate_common_name}</code></p>
+  </div>
+
+  <div class="challenge">
+    <h3>3. Malware Pivot</h3>
+    <p>Search a malware sandbox (e.g., ANY.RUN or Triage) for samples that communicated with the IOC. Submit the name of one malware family.</p>
+    <p><strong>Flag format:</strong> <code>flag{malware_name}</code></p>
+  </div>
+
+  <div class="challenge">
+    <h3>4. TTP Mapping</h3>
+    <p>Using the MITRE ATT&CK framework, find one technique ID used by CozySpider/APT29 related to credential dumping.</p>
+    <p><strong>Flag format:</strong> <code>flag{TID}</code> (e.g., <code>flag{T1003}</code>)</p>
+  </div>
+
+  <div class="challenge">
+    <h3>5. Related Campaign</h3>
+    <p>Search public threat intel sources for a campaign name tied to CozySpider/APT29 in the past year.</p>
+    <p><strong>Flag format:</strong> <code>flag{campaign_name}</code></p>
+  </div>
+
+  <div class="footer">
+    <p>Use tools like VirusTotal, Shodan, crt.sh, Abuse.ch, ANY.RUN, MITRE ATT&CK Navigator. Stay ethical. No brute-force. No login required for any tool used.</p>
+    <p><strong>Good luck, analyst!</strong></p>
+  </div>
+</body>
+</html>
