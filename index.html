@@ -7,40 +7,50 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f6fa;
-      color: #2f3640;
+      color: #f5f6fa;
       padding: 2rem;
       max-width: 900px;
       margin: auto;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background-attachment: fixed;
+      background-size: cover;
     }
     h1, h2 {
-      color: #273c75;
+      color: #00cec9;
     }
     code {
-      background: #dcdde1;
+      background: #222f3e;
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
+      color: #00cec9;
     }
     .challenge {
       margin-bottom: 2rem;
       padding: 1rem;
-      background: #fff;
-      border-left: 4px solid #44bd32;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #00cec9;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
     .footer {
       margin-top: 4rem;
       font-size: 0.9rem;
-      color: #718093;
+      color: #dcdde1;
+    }
+    details {
+      background-color: rgba(9, 132, 227, 0.1);
+      border-left: 4px solid #0984e3;
+      padding: 1rem;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+      color: #dff9fb;
     }
   </style>
 </head>
 <body>
   <h1>🕵️‍♀️ OSINT CTF: Operation CozySpider – The Phantom Command Chain</h1>
-  <p><strong>Company:</strong> CyberDome<br>
-    <strong>Category:</strong> OSINT<br>
+  <p><strong>Category:</strong> OSINT<br>
      <strong>Difficulty:</strong> Easy to Medium<br>
-     <strong>Time Estimate:</strong> 10 minutes
+     <strong>Time Estimate:</strong> 10–20 minutes
   </p>
 
   <h2>📖 Backstory</h2>
@@ -53,42 +63,52 @@
 
   <div class="challenge">
     <h3>1. Silent Hosts</h3>
-    <p>Logs indicate a suspicious domain was contacted from a compromised internal asset.</p>
     <p><strong>Intel Task:</strong> Use passive DNS and threat intel to find <em>another domain on the same IP</em> as <code>researchnode[.]org</code>.</p>
     <p><strong>Flag format:</strong> <code>flag{related_domain}</code></p>
     <p><em>Narrative:</em> You just revealed the threat actor’s <strong>infrastructure cluster</strong>. You're onto something. But what were they using it for?</p>
+    <details><summary><strong>Solution</strong></summary>
+      <p><code>flag{intelcloudsync.net}</code></p>
+    </details>
   </div>
 
   <div class="challenge">
     <h3>2. Shadows in the Certificate</h3>
-    <p>Further analysis shows the domain served over HTTPS. CozySpider often reuses certificates across campaigns.</p>
     <p><strong>Intel Task:</strong> Use crt.sh or Censys to identify the <strong>certificate's Common Name (CN)</strong>.</p>
     <p><strong>Flag format:</strong> <code>flag{certificate_common_name}</code></p>
     <p><em>Narrative:</em> The CN matches a codename from past campaigns. You've tracked their <strong>digital fingerprint</strong>.</p>
+    <details><summary><strong>Solution</strong></summary>
+      <p><code>flag{CozySync-01}</code></p>
+    </details>
   </div>
 
   <div class="challenge">
     <h3>3. Their Weapon of Choice</h3>
-    <p>The IP is submitted to a sandbox. The payload behavior is familiar — CozySpider’s signature style.</p>
     <p><strong>Intel Task:</strong> Identify <strong>one malware family</strong> associated with the IOC.</p>
     <p><strong>Flag format:</strong> <code>flag{malware_name}</code></p>
     <p><em>Narrative:</em> You’ve now uncovered the APT’s <strong>primary cyber weapon</strong>. The tools fit the threat profile.</p>
+    <details><summary><strong>Solution</strong></summary>
+      <p><code>flag{cobalt_strike}</code></p>
+    </details>
   </div>
 
   <div class="challenge">
     <h3>4. Inside Their Playbook</h3>
-    <p>Consult MITRE ATT&CK to verify TTPs. CozySpider often escalates access by dumping credentials.</p>
     <p><strong>Intel Task:</strong> Find the <strong>MITRE Technique ID</strong> for credential dumping.</p>
     <p><strong>Flag format:</strong> <code>flag{TID}</code> (e.g., <code>flag{T1003}</code>)</p>
     <p><em>Narrative:</em> You're now mapping CozySpider’s <strong>methods to threat intelligence frameworks</strong>. The picture sharpens.</p>
+    <details><summary><strong>Solution</strong></summary>
+      <p><code>flag{T1003}</code></p>
+    </details>
   </div>
 
   <div class="challenge">
     <h3>5. The Final Link</h3>
-    <p>All intel points to a larger operation. You cross-reference known CozySpider campaigns to name this one.</p>
     <p><strong>Intel Task:</strong> Identify a <strong>campaign name</strong> tied to CozySpider/APT29 in recent public reports.</p>
     <p><strong>Flag format:</strong> <code>flag{campaign_name}</code></p>
     <p><em>Narrative:</em> With this final flag, you’ve uncovered the APT’s <strong>command chain, intent, and campaign structure</strong>. The operation is exposed.</p>
+    <details><summary><strong>Solution</strong></summary>
+      <p><code>flag{midnight_blizzard}</code></p>
+    </details>
   </div>
 
   <div class="footer">
