@@ -67,17 +67,15 @@
 </head>
 <body>
   <h1>🕵️‍♀️ OSINT CTF: Operation CozySpider – The Phantom Command Chain</h1>
-  <p><strong>Company:</strong> CyberDome<br>
-    <strong>Category:</strong> OSINT<br>
+  <p><strong>Category:</strong> OSINT<br>
      <strong>Difficulty:</strong> Easy to Medium<br>
      <strong>Time Estimate:</strong> 10–20 minutes
   </p>
 
-  <h2>📖 Backstory</h2>
-  <p>In late May, a European telecom provider reported signs of a <strong>targeted breach</strong>. Forensic logs revealed command-and-control activity linked to <strong>CozySpider</strong> — a covert APT with ties to state-sponsored operations.</p>
-  <p>Your mission, Analyst: <strong>Trace their infrastructure, expose their malware, and identify the campaign name</strong> before it vanishes from the web.</p>
-  <p>You’ve been handed one known IOC to begin your hunt:</p>
-  <p><code>Known Domain: researchnode[.]org</code></p>
+  <h2>📖 Story Brief</h2>
+  <p>Europe’s cyber watchdog just flagged an anomaly — covert beaconing from a telecom node. As the junior analyst on call, you've been handed a single IOC and a deadline: <strong>trace the APT's command chain</strong> before they cover their tracks.</p>
+  <p>This mission unfolds in real time — each discovery unravels the next thread. Fail, and the world never knows. Succeed, and you expose <em>Operation CozySpider</em>.</p>
+  <p>Initial Artifact: <code>researchnode[.]org</code></p>
 
   <h2>🧩 Challenges</h2>
   <div id="challenges"></div>
@@ -89,34 +87,34 @@
 
   <div class="footer">
     <p>Use tools like VirusTotal, Shodan, crt.sh, Abuse.ch, ANY.RUN, MITRE ATT&CK Navigator. Stay ethical. No brute-force. No login required for any tool used.</p>
-    <p><strong>Good luck, Analyst.</strong> The world is watching.</p>
+    <p><strong>Good luck, Analyst.</strong> Your clicks may change history.</p>
   </div>
 
   <script>
     const challenges = [
       {
-        title: "1. Silent Hosts",
-        task: "Use passive DNS and threat intel to find another domain on the same IP as researchnode[.]org.",
+        title: "1. Recon Echo",
+        task: "Start with passive DNS. What domain shadows researchnode[.]org from the same IP?",
         flag: "flag{intelcloudsync.net}"
       },
       {
-        title: "2. Shadows in the Certificate",
-        task: "Use crt.sh or Censys to identify the certificate's Common Name (CN).",
+        title: "2. Signal Through Cert",
+        task: "Follow the cert trail on crt.sh. What's the CN (Common Name) listed?",
         flag: "flag{CozySync-01}"
       },
       {
-        title: "3. Their Weapon of Choice",
-        task: "Identify one malware family associated with the IOC.",
+        title: "3. Payload in Play",
+        task: "What malware family has been used to beacon from intelcloudsync.net?",
         flag: "flag{cobalt_strike}"
       },
       {
-        title: "4. Inside Their Playbook",
-        task: "Find the MITRE Technique ID for credential dumping.",
+        title: "4. Tactics Revealed",
+        task: "Dig into MITRE ATT&CK. What Technique ID is used for credential dumping by this APT?",
         flag: "flag{T1003}"
       },
       {
-        title: "5. The Final Link",
-        task: "Identify a campaign name tied to CozySpider/APT29 in recent public reports.",
+        title: "5. Signature Unmasked",
+        task: "Name one publicly tracked campaign linked to CozySpider/APT29 this year.",
         flag: "flag{midnight_blizzard}"
       }
     ];
@@ -131,9 +129,9 @@
       box.className = 'challenge';
       box.innerHTML = `
         <h3>${ch.title}</h3>
-        <p><strong>Task:</strong> ${ch.task}</p>
+        <p><strong>Intel:</strong> ${ch.task}</p>
         <input type="text" id="input-${i}" placeholder="Enter your flag..."/>
-        <button onclick="checkFlag(${i})">Submit</button>
+        <button id="submit-${i}" onclick="checkFlag(${i})">Submit</button>
         <div class="feedback" id="feedback-${i}"></div>
       `;
       container.appendChild(box);
@@ -151,10 +149,14 @@
         userScores[index] = 10;
         feedback.style.color = 'lightgreen';
         feedback.innerText = `✅ Correct! +10 points.`;
+        document.getElementById(`submit-${index}`).disabled = true;
+        document.getElementById(`input-${index}`).disabled = true;
       } else {
         if (userAttempts[index] >= 3) {
           feedback.style.color = 'orange';
           feedback.innerHTML = `❌ Incorrect. Max attempts reached. The correct flag is: <code>${challenges[index].flag}</code>`;
+          document.getElementById(`submit-${index}`).disabled = true;
+          document.getElementById(`input-${index}`).disabled = true;
         } else {
           feedback.style.color = 'red';
           feedback.innerText = `❌ Incorrect. Try again (${userAttempts[index]} of 3 attempts used).`;
